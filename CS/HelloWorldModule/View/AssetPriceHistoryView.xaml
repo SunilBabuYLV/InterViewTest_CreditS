@@ -1,0 +1,53 @@
+﻿<Window x:Class="AssetPriceModule.View.AssetPriceHistoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AssetPriceModule.View"
+             xmlns:common="clr-namespace:AssetPriceModule.Common"
+             Title="{Binding AssetName}" Width="400" Height="450"
+             mc:Ignorable="d" Tag="{Binding UniqueId}"
+             d:DesignHeight="450" d:DesignWidth="800">
+   
+        <Window.Resources>
+            <ResourceDictionary Source="../Assets/Styles/CommonStyle.xaml"></ResourceDictionary>
+        </Window.Resources>
+   
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+        <Label HorizontalAlignment="Center" Content="{Binding AssetName}" FontWeight="Bold"></Label>
+            <Label Content="{Binding Price}">
+                <Label.Style>
+                    <Style TargetType="{x:Type Label}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=AvgPriceMomentum}" Value="{x:Static common:Momentum.Up}">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=AvgPriceMomentum}"
+                                         Value="{x:Static common:Momentum.Down}">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=AvgPriceMomentum}"
+                                         Value="{x:Static common:Momentum.None}">
+                                <Setter Property="Background" Value="DimGray" />
+
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+        <Label Style="{StaticResource BlueBanner}" Margin="0,5,0,0" Grid.Row="1" />
+        <ListView Grid.Row="2" ItemsSource="{Binding PriceHistory}" Margin="0,5,0,0" Background="NavajoWhite">
+            
+        </ListView>
+
+<Label Content="Note : Price is displaying in asc. order (queue, latest one is at end.)." Margin="5" Grid.Row="3"></Label>
+    </Grid>
+</Window>
